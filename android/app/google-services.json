@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "65477720425",
+    "firebase_url": "https://fir-chat-397da.firebaseio.com",
+    "project_id": "fir-chat-397da",
+    "storage_bucket": "fir-chat-397da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65477720425:android:c9be7e3d9b2736a8c865f8",
+        "android_client_info": {
+          "package_name": "np.com.saileshdahal.chat_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65477720425-vefaelboeoaqjgeqig1buqnoh575fkfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoisTuwHFTZMaFzCqe0OuC3QncUK7RtWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65477720425-vefaelboeoaqjgeqig1buqnoh575fkfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
