@@ -1,6 +1,5 @@
 import 'package:chat_firebase/app/locator.dart';
 import 'package:chat_firebase/services/authentication_service.dart';
-import 'package:chat_firebase/services/user_data_service.dart';
 import 'package:chat_firebase/ui/views/login/login_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';

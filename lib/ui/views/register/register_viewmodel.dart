@@ -3,7 +3,6 @@ import 'package:chat_firebase/app/locator.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:chat_firebase/services/authentication_service.dart';
 import 'package:chat_firebase/ui/views/home/home_view.dart';
-import 'package:chat_firebase/ui/views/login/login_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';

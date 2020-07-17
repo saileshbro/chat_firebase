@@ -20,7 +20,6 @@ class FirebaseService {
       final DocumentSnapshot snapshot = await newUserDocReference.get();
       return UserDataModel.fromDocumentSnapshot(snapshot);
     } catch (e) {
-      print("Error:${e.toString()}");
       throw Failure(e.toString());
     }
   }
@@ -37,7 +36,6 @@ class FirebaseService {
       final DocumentSnapshot snapshot = response.documents.first;
       return UserDataModel.fromDocumentSnapshot(snapshot);
     } catch (e) {
-      print("Error:${e.toString()}");
       throw Failure(e.toString());
     }
   }
