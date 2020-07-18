@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Firebase Chat Application',
       onGenerateRoute: onGenerateRoute,
       navigatorKey: locator<NavigationService>().navigatorKey,
+      debugShowCheckedModeBanner: false,
       initialRoute: StartUpView.route,
       theme: ThemeData(
         primarySwatch: Colors.blue,

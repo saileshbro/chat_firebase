@@ -1,6 +1,7 @@
 import 'package:chat_firebase/ui/views/home/home_view.dart';
 import 'package:chat_firebase/ui/views/login/login_view.dart';
 import 'package:chat_firebase/ui/views/register/register_view.dart';
+import 'package:chat_firebase/ui/views/search/search_view.dart';
 import 'package:chat_firebase/ui/views/startup/startup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +16,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       break;
     case LoginView.route:
       return MaterialPageRoute(builder: (_) => LoginView());
+      break;
+    case SearchView.route:
+      return MaterialPageRoute(builder: (_) => SearchView());
       break;
     case HomeView.route:
       return MaterialPageRoute(builder: (_) => HomeView());

@@ -2,7 +2,8 @@ import 'package:chat_firebase/app/locator.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String userNameKey = "USERNAME_KEY";
+const String usernameKey = "USERNAME_KEY";
+const String userNameKey = "USER_NAME_KEY";
 const String userIdKey = "USER_ID_KEY";
 
 class UserDataService {
@@ -10,11 +11,12 @@ class UserDataService {
   UserDataModel _userDataModel;
   UserDataModel get userDataModel => _userDataModel;
   UserDataService() {
-    _userDataModel = UserDataModel(id: null, username: null);
+    _userDataModel = UserDataModel(id: null, username: null, name: null);
   }
   Future<void> saveData(UserDataModel model) async {
     await _preferences.setString(userIdKey, model.id);
-    await _preferences.setString(userNameKey, model.username);
+    await _preferences.setString(usernameKey, model.username);
+    await _preferences.setString(userNameKey, model.name);
     _userDataModel = model;
   }
 
@@ -22,7 +24,10 @@ class UserDataService {
     _userDataModel.id = _preferences.containsKey(userIdKey)
         ? _preferences.getString(userIdKey)
         : null;
-    _userDataModel.username = _preferences.containsKey(userNameKey)
+    _userDataModel.username = _preferences.containsKey(usernameKey)
+        ? _preferences.getString(usernameKey)
+        : null;
+    _userDataModel.name = _preferences.containsKey(userNameKey)
         ? _preferences.getString(userNameKey)
         : null;
   }
@@ -30,6 +35,7 @@ class UserDataService {
   void clearData() {
     _userDataModel = null;
     _preferences.remove(userIdKey);
+    _preferences.remove(usernameKey);
     _preferences.remove(userNameKey);
   }
 

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:chat_firebase/app/failure.dart';
+import 'package:chat_firebase/common/helpers/generate_keywords.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -6,7 +9,18 @@ import 'package:flutter/foundation.dart';
 class FirebaseService {
   final CollectionReference _usersCollectionReference =
       Firestore.instance.collection('users');
-  Future<UserDataModel> registerUser({@required String username}) async {
+
+  final StreamController<List<UserDataModel>> _usersHomeController =
+      StreamController<List<UserDataModel>>();
+  CollectionReference get usersCollectionReference => _usersCollectionReference;
+  FirebaseService() {
+    _usersCollectionReference.snapshots().listen(_onUsersAdded);
+  }
+
+  Stream<List<UserDataModel>> get users => _usersHomeController.stream;
+
+  Future<UserDataModel> registerUser(
+      {@required String username, @required String name}) async {
     try {
       final QuerySnapshot response = await _usersCollectionReference
           .where('username', isEqualTo: username)
@@ -16,7 +30,12 @@ class FirebaseService {
         throw Failure("User already exists with username $username");
       }
       final DocumentReference newUserDocReference =
-          await _usersCollectionReference.add({"username": username});
+          await _usersCollectionReference.add({
+        "username": username,
+        "name": name,
+        // Keywords added for searching
+        "keywords": generateKeywords([name, username])
+      });
       final DocumentSnapshot snapshot = await newUserDocReference.get();
       return UserDataModel.fromDocumentSnapshot(snapshot);
     } catch (e) {
@@ -38,5 +57,35 @@ class FirebaseService {
     } catch (e) {
       throw Failure(e.toString());
     }
+  }
+
+  Future<List<UserDataModel>> searchUsers({@required String query}) async {
+    try {
+      final QuerySnapshot snapshot = await _usersCollectionReference
+          .where('keywords', arrayContains: query)
+          .getDocuments();
+      if (snapshot.documents.isEmpty) {
+        throw Failure("No users found!");
+      }
+      return _getUsersFromSnapshot(snapshot);
+    } catch (e) {
+      throw Failure(e.toString());
+    }
+  }
+
+  void _onUsersAdded(QuerySnapshot snapshot) {
+    final List<UserDataModel> list = _getUsersFromSnapshot(snapshot);
+    _usersHomeController.add(list);
+  }
+
+  List<UserDataModel> _getUsersFromSnapshot(QuerySnapshot snapshot) {
+    final List<UserDataModel> users = [];
+    final List<DocumentSnapshot> documents = snapshot.documents;
+    if (documents.isNotEmpty) {
+      for (final DocumentSnapshot documentSnapshot in documents) {
+        users.add(UserDataModel.fromDocumentSnapshot(documentSnapshot));
+      }
+    }
+    return users;
   }
 }

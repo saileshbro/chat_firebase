@@ -22,64 +22,83 @@ class RegisterView extends StatelessWidget {
                 child: Padding(
                   padding: sPagePadding,
                   child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        xxlHeightSpan,
-                        const FlutterLogo(
-                          size: 96,
-                        ),
-                        mHeightSpan,
-                        const Text(
-                          "Fire Chat",
-                          style: TextStyle(fontSize: 24),
-                        ),
-                        lHeightSpan,
-                        TextFormField(
-                          controller: model.usernameController,
-                          onChanged: model.onNameChanged,
-                          decoration: InputDecoration(
-                            errorText: model.hasError ? model.modelError : null,
-                            contentPadding: sYPadding,
-                            hintText: "username",
-                            fillColor: Colors.grey[200],
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            prefixIcon: Icon(Icons.person),
+                    child: Form(
+                      key: model.formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          xxlHeightSpan,
+                          const FlutterLogo(
+                            size: 96,
                           ),
-                        ),
-                        lHeightSpan,
-                        DynamicRaisedButton(
-                          onPressed: model.onRegisterPressed,
-                          color: Theme.of(context).primaryColor,
-                          text: "Register",
-                          loading: model.isBusy,
-                        ),
-                        xlHeightSpan,
-                        GestureDetector(
-                          onTap: model.goToLogin,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              const Text(
-                                "Already have an account?",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                          mHeightSpan,
+                          const Text(
+                            "Fire Chat",
+                            style: TextStyle(fontSize: 24),
+                          ),
+                          lHeightSpan,
+                          TextFormField(
+                            validator: model.validateUsername,
+                            onChanged: model.onUsernameChanged,
+                            decoration: InputDecoration(
+                              contentPadding: sYPadding,
+                              hintText: "username",
+                              fillColor: Colors.grey[200],
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              sWidthSpan,
-                              Text(
-                                "Login",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              )
-                            ],
+                              prefixIcon: Icon(Icons.alternate_email),
+                            ),
                           ),
-                        )
-                      ],
+                          mHeightSpan,
+                          TextFormField(
+                            validator: model.validateName,
+                            onChanged: model.onNameChanged,
+                            textCapitalization: TextCapitalization.words,
+                            decoration: InputDecoration(
+                              contentPadding: sYPadding,
+                              hintText: "name",
+                              fillColor: Colors.grey[200],
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              prefixIcon: Icon(Icons.person),
+                            ),
+                          ),
+                          lHeightSpan,
+                          DynamicRaisedButton(
+                            onPressed: model.onRegisterPressed,
+                            color: Theme.of(context).primaryColor,
+                            text: "Register",
+                            loading: model.isBusy,
+                          ),
+                          xlHeightSpan,
+                          GestureDetector(
+                            onTap: model.goToLogin,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                const Text(
+                                  "Already have an account?",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                sWidthSpan,
+                                Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
