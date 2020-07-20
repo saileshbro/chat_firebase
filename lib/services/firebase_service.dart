@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chat_firebase/app/failure.dart';
 import 'package:chat_firebase/common/helpers/generate_keywords.dart';
+import 'package:chat_firebase/datamodels/message_datamodel.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -9,6 +10,12 @@ import 'package:flutter/foundation.dart';
 class FirebaseService {
   final CollectionReference _usersCollectionReference =
       Firestore.instance.collection('users');
+  CollectionReference messagesCollectionReference(String conversationId) {
+    return Firestore.instance
+        .collection("messages")
+        .document(conversationId)
+        .collection(conversationId);
+  }
 
   final StreamController<List<UserDataModel>> _usersHomeController =
       StreamController<List<UserDataModel>>();
@@ -88,4 +95,39 @@ class FirebaseService {
     }
     return users;
   }
+
+  List<MessageDataModel> _getMessagesFromSnapshot(QuerySnapshot snapshot) {
+    final List<MessageDataModel> messages = [];
+    final List<DocumentSnapshot> documents = snapshot.documents;
+    if (documents.isNotEmpty) {
+      for (final DocumentSnapshot documentSnapshot in documents) {
+        messages.add(MessageDataModel.fromDocumentSnapshot(documentSnapshot));
+      }
+    }
+    return messages;
+  }
+
+  Stream<List<MessageDataModel>> getMessagesStream(String groupId) {
+    return messagesCollectionReference(groupId)
+        .orderBy('time', descending: true)
+        .snapshots()
+        .map(_getMessagesFromSnapshot);
+  }
+
+  Future<void> sendMessage(
+      {@required String groupId, @required MessageDataModel model}) async {
+    try {
+      await messagesCollectionReference(groupId).add(model.toMap());
+    } catch (e) {
+      print(e);
+    }
+  }
 }
+// final DocumentReference newUserDocReference =
+//           await _usersCollectionReference.add({
+//         "username": username,
+//         "name": name,
+//         // Keywords added for searching
+//         "keywords": generateKeywords([name, username])
+//       });
+//       final DocumentSnapshot snapshot = await newUserDocReference.get();

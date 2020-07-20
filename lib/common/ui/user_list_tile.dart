@@ -1,14 +1,16 @@
+import 'package:chat_firebase/common/helpers/random_color.dart';
 import 'package:chat_firebase/common/ui/ui_helpers.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:flutter/material.dart';
 
 class UserListTile extends StatelessWidget {
   final UserDataModel userDataModel;
-  const UserListTile({this.userDataModel});
+  final VoidCallback onPressed;
+  const UserListTile({@required this.userDataModel, @required this.onPressed});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -26,7 +28,7 @@ class UserListTile extends StatelessWidget {
               padding: sPadding,
               child: CircleAvatar(
                 radius: 22,
-                backgroundColor: Colors.lightBlue[400],
+                backgroundColor: getRandomColor(),
                 child: Text(
                   userDataModel.name[0],
                   style: TextStyle(

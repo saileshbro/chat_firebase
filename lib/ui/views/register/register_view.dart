@@ -1,3 +1,4 @@
+import 'package:chat_firebase/app/locator.dart';
 import 'package:chat_firebase/common/ui/dynamic_button.dart';
 import 'package:chat_firebase/common/ui/ui_helpers.dart';
 import 'package:chat_firebase/ui/views/register/register_viewmodel.dart';
@@ -10,6 +11,7 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RegisterViewModel>.reactive(
+        disposeViewModel: false,
         builder: (BuildContext context, RegisterViewModel model,
                 Widget child) =>
             Scaffold(
@@ -104,6 +106,6 @@ class RegisterView extends StatelessWidget {
                 ),
               ),
             ),
-        viewModelBuilder: () => RegisterViewModel());
+        viewModelBuilder: () => locator<RegisterViewModel>());
   }
 }

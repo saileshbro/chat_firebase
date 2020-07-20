@@ -10,6 +10,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
+        disposeViewModel: false,
         builder: (BuildContext context, HomeViewModel model, Widget child) =>
             Scaffold(
               floatingActionButton: FloatingActionButton(
@@ -18,7 +19,7 @@ class HomeView extends StatelessWidget {
               ),
               appBar: AppBar(
                 elevation: 0,
-                title: const Text('Home Page'),
+                title: Text(model.loggedinUsername),
                 centerTitle: true,
                 actions: <Widget>[
                   IconButton(
@@ -34,7 +35,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _getBody(HomeViewModel model) {
-    if (model.isBusy) {
+    if (model.users == null || model.isBusy) {
       return const CircularProgressIndicator();
     }
     if (model.hasError) {
@@ -46,6 +47,7 @@ class HomeView extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return UserListTile(
           userDataModel: model.users[index],
+          onPressed: () => model.goToChatScreen(model.users[index]),
         );
       },
       separatorBuilder: (BuildContext context, int index) {

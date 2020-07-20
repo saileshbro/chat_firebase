@@ -1,3 +1,5 @@
+import 'package:chat_firebase/datamodels/user_datamodel.dart';
+import 'package:chat_firebase/ui/views/chat/chat_view.dart';
 import 'package:chat_firebase/ui/views/home/home_view.dart';
 import 'package:chat_firebase/ui/views/login/login_view.dart';
 import 'package:chat_firebase/ui/views/register/register_view.dart';
@@ -19,6 +21,10 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       break;
     case SearchView.route:
       return MaterialPageRoute(builder: (_) => SearchView());
+      break;
+    case ChatView.route:
+      final UserDataModel dataModel = settings.arguments as UserDataModel;
+      return MaterialPageRoute(builder: (_) => ChatView(otherUser: dataModel));
       break;
     case HomeView.route:
       return MaterialPageRoute(builder: (_) => HomeView());

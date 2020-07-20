@@ -37,8 +37,8 @@ class SearchView extends StatelessWidget {
                   ),
                 ),
               ),
-              body: const Center(
-                child: Text("Search bar"),
+              body: Center(
+                child: getUi(model),
               ),
             ),
         viewModelBuilder: () => locator<SearchViewModel>());
@@ -50,8 +50,10 @@ class SearchView extends StatelessWidget {
     if (model.init) return const Text("Type to search by name or username!");
     if (model.isEmpty) return const Text("No results found!");
     return ListView.builder(
+      padding: sPagePadding,
       itemBuilder: (BuildContext context, int index) => UserListTile(
         userDataModel: model.users[index],
+        onPressed: () => model.goToChatScreen(model.users[index]),
       ),
       itemCount: model.users.length,
     );

@@ -1,4 +1,3 @@
-import 'package:chat_firebase/app/locator.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,10 +6,10 @@ const String userNameKey = "USER_NAME_KEY";
 const String userIdKey = "USER_ID_KEY";
 
 class UserDataService {
-  final SharedPreferences _preferences = locator<SharedPreferences>();
+  final SharedPreferences _preferences;
   UserDataModel _userDataModel;
   UserDataModel get userDataModel => _userDataModel;
-  UserDataService() {
+  UserDataService(this._preferences) {
     _userDataModel = UserDataModel(id: null, username: null, name: null);
   }
   Future<void> saveData(UserDataModel model) async {

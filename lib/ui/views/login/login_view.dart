@@ -1,3 +1,4 @@
+import 'package:chat_firebase/app/locator.dart';
 import 'package:chat_firebase/common/ui/dynamic_button.dart';
 import 'package:chat_firebase/common/ui/ui_helpers.dart';
 import 'package:chat_firebase/ui/views/login/login_viewmodel.dart';
@@ -11,6 +12,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(
+        disposeViewModel: false,
         builder: (BuildContext context, LoginViewModel model, Widget child) =>
             Scaffold(
               appBar: AppBar(
@@ -88,6 +90,6 @@ class LoginView extends StatelessWidget {
                 ),
               ),
             ),
-        viewModelBuilder: () => LoginViewModel());
+        viewModelBuilder: () => locator<LoginViewModel>());
   }
 }

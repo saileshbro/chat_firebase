@@ -1,5 +1,4 @@
 import 'package:chat_firebase/app/failure.dart';
-import 'package:chat_firebase/app/locator.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:chat_firebase/services/firebase_service.dart';
 import 'package:chat_firebase/services/user_data_service.dart';
@@ -7,8 +6,10 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 
 class ApiService {
-  final UserDataService _userDataService = locator<UserDataService>();
-  final FirebaseService _firebaseService = locator<FirebaseService>();
+  final UserDataService _userDataService;
+  final FirebaseService _firebaseService;
+
+  ApiService(this._userDataService, this._firebaseService);
 
   Future<Either<Failure, UserDataModel>> register(
       {@required String username, @required String name}) async {
