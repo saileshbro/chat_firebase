@@ -10,6 +10,7 @@ analyzer:
     argument_type_not_assignable: ignore
     prefer_const_literals_to_create_immutables: ignore
     use_setters_to_change_properties: ignore
+    prefer_const_constructors: warning
 linter:
   rules:
     parameter_assignments: true

@@ -13,14 +13,15 @@ class UserListTile extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(0, 4),
-                  color: Colors.grey[300],
-                  blurRadius: 16),
-            ],
-            color: Colors.white),
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: [
+            BoxShadow(
+                offset: const Offset(0, 4),
+                color: Colors.grey[300],
+                blurRadius: 16),
+          ],
+          color: Colors.white,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[

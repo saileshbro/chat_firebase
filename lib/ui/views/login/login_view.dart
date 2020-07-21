@@ -52,7 +52,7 @@ class LoginView extends StatelessWidget {
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              prefixIcon: Icon(Icons.alternate_email),
+                              prefixIcon: const Icon(Icons.alternate_email),
                             ),
                           ),
                           lHeightSpan,

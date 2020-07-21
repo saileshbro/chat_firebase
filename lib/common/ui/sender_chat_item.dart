@@ -1,14 +1,20 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_firebase/common/ui/ui_helpers.dart';
 import 'package:chat_firebase/datamodels/message_datamodel.dart';
+import 'package:chat_firebase/ui/views/chat/chat_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:stacked/stacked.dart';
 
-class SenderChatItem extends StatelessWidget {
+class SenderChatItem extends ViewModelWidget<ChatViewModel> {
   final MessageDataModel message;
   final bool isLastMessage;
   final Color color;
   final String name;
+
   const SenderChatItem({
     Key key,
     @required this.message,
@@ -18,7 +24,7 @@ class SenderChatItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ChatViewModel model) {
     return Column(
       children: <Widget>[
         Row(
@@ -27,15 +33,24 @@ class SenderChatItem extends StatelessWidget {
           children: <Widget>[
             sWidthSpan,
             if (message.messageType == MessageType.message)
-              Expanded(
+              Flexible(
                 child: Container(
-                  padding: mPadding,
+                  padding: mXPadding.add(sYPadding),
                   decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(8.0)),
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(4),
+                      topRight: Radius.circular(4),
+                      bottomLeft: Radius.circular(16),
+                      topLeft: Radius.circular(16),
+                    ),
+                    color: Colors.lightBlueAccent[100],
+                  ),
                   margin: const EdgeInsets.only(top: 4.0, right: 4.0),
                   child: Text(
                     message.message,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -43,31 +58,57 @@ class SenderChatItem extends StatelessWidget {
               // Image
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.only(top: 4.0, right: 4.0),
-                  child: FlatButton(
-                    onPressed: () {},
-                    padding: const EdgeInsets.all(0),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8.0),
-                      ),
-                      child: CachedNetworkImage(
-                        placeholder: (context, url) => Container(
-                          // padding: const EdgeInsets.all(70.0),
-                          height: 180,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
+                  constraints: const BoxConstraints(maxHeight: 180),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      children: <Widget>[
+                        const Spacer(),
+                        Container(
+                          margin: const EdgeInsets.only(top: 4.0, right: 4.0),
+                          child: ClipRRect(
                             borderRadius: const BorderRadius.all(
                               Radius.circular(8.0),
                             ),
+                            child: CachedNetworkImage(
+                              placeholder: (context, url) => Center(
+                                child: Container(
+                                  decoration: model.fileImageCache
+                                          .containsKey(message.time)
+                                      ? const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                        )
+                                      : BoxDecoration(
+                                          color: Colors.grey[300],
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                        ),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      if (model.fileImageCache
+                                          .containsKey(message.time))
+                                        Image.file(
+                                          File(
+                                            model.fileImageCache[message.time],
+                                          ),
+                                        ),
+                                      const Padding(
+                                        padding: sPadding,
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              imageUrl: message.message,
+                            ),
                           ),
-                          child:
-                              const Center(child: CircularProgressIndicator()),
                         ),
-                        imageUrl: message.message,
-                        height: 180,
-                        fit: BoxFit.cover,
-                      ),
+                      ],
                     ),
                   ),
                 ),
@@ -78,8 +119,8 @@ class SenderChatItem extends StatelessWidget {
                   color: color,
                   borderRadius: BorderRadius.circular(21),
                 ),
-                height: 42,
-                width: 42,
+                height: 36,
+                width: 36,
                 child: Center(
                   child: Text(
                     name[0],
@@ -92,7 +133,7 @@ class SenderChatItem extends StatelessWidget {
                 ),
               )
             else
-              const SizedBox(width: 42.0),
+              const SizedBox(width: 36.0),
 
             // Sticker
           ],
@@ -111,7 +152,9 @@ class SenderChatItem extends StatelessWidget {
                 children: <Widget>[
                   sHeightSpan,
                   Text(
-                    DateFormat('dd MMM kk:mm').format(DateTime.now()),
+                    DateFormat('dd MMM kk:mm').format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(message.time))),
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.0,

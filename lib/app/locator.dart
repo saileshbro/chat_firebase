@@ -19,7 +19,8 @@ Future<void> setupLocator() async {
   locator.registerFactory<SharedPreferences>(() => _preferences);
   locator.registerLazySingleton<UserDataService>(
       () => UserDataService(locator<SharedPreferences>()));
-  locator.registerLazySingleton<FirebaseService>(() => FirebaseService());
+  locator.registerFactory<FirebaseService>(
+      () => FirebaseService(locator<UserDataService>()));
   locator.registerLazySingleton<ApiService>(
       () => ApiService(locator<UserDataService>(), locator<FirebaseService>()));
   locator.registerLazySingleton<StartUpViewModel>(() => StartUpViewModel(
@@ -36,7 +37,7 @@ Future<void> setupLocator() async {
         locator<DialogService>(),
         locator<NavigationService>(),
       ));
-  locator.registerLazySingleton<HomeViewModel>(() => HomeViewModel(
+  locator.registerFactory<HomeViewModel>(() => HomeViewModel(
         locator<ApiService>(),
         locator<FirebaseService>(),
         locator<NavigationService>(),

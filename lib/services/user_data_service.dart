@@ -31,11 +31,11 @@ class UserDataService {
         : null;
   }
 
-  void clearData() {
+  Future<void> clearData() async {
     _userDataModel = null;
-    _preferences.remove(userIdKey);
-    _preferences.remove(usernameKey);
-    _preferences.remove(userNameKey);
+    await _preferences.remove(userIdKey);
+    await _preferences.remove(usernameKey);
+    await _preferences.remove(userNameKey);
   }
 
   bool isLoggedIn() {

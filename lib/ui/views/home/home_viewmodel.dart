@@ -29,6 +29,7 @@ class HomeViewModel extends BaseViewModel {
       if (users.isEmpty) {
         setError("No users available");
       } else {
+        clearErrors();
         setBusy(false);
       }
     }

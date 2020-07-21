@@ -6,12 +6,14 @@ class MessageDataModel {
   MessageType messageType;
   String time;
   String message;
+  bool isImageTemp = false;
   MessageDataModel({
     this.sender,
     this.receiver,
     this.message,
     this.messageType,
     this.time,
+    this.isImageTemp,
   });
 
   Map<String, dynamic> toMap() {

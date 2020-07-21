@@ -46,7 +46,7 @@ class ApiService {
     }
   }
 
-  void logout() {
-    _userDataService.clearData();
+  Future<void> logout() async {
+    await _userDataService.clearData();
   }
 }

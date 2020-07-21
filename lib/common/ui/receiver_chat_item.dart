@@ -9,6 +9,7 @@ class ReceiverChatItem extends StatelessWidget {
   final bool isLastMessage;
   final Color color;
   final String name;
+
   const ReceiverChatItem({
     Key key,
     @required this.message,
@@ -31,13 +32,13 @@ class ReceiverChatItem extends StatelessWidget {
                   color: color,
                   borderRadius: BorderRadius.circular(21),
                 ),
-                height: 42,
-                width: 42,
+                height: 36,
+                width: 36,
                 child: Center(
                   child: Text(
                     name[0],
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 24,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -45,14 +46,19 @@ class ReceiverChatItem extends StatelessWidget {
                 ),
               )
             else
-              const SizedBox(width: 42.0),
+              const SizedBox(width: 36.0),
             if (message.messageType == MessageType.message)
-              Expanded(
+              Flexible(
                 child: Container(
-                  padding: mPadding,
+                  padding: mXPadding.add(sYPadding),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: Colors.grey[300],
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(4),
+                      topLeft: Radius.circular(4),
+                      bottomRight: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    color: Colors.greenAccent[100],
                   ),
                   margin: const EdgeInsets.only(top: 4.0, left: 4.0),
                   child: Text(
@@ -64,32 +70,36 @@ class ReceiverChatItem extends StatelessWidget {
             if (message.messageType == MessageType.image)
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.only(top: 4.0, left: 4.0),
-                  child: FlatButton(
-                    onPressed: () {},
-                    padding: const EdgeInsets.all(0),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8.0),
-                      ),
-                      child: CachedNetworkImage(
-                        placeholder: (context, url) => Container(
-                          // padding: const EdgeInsets.all(70.0),
-                          height: 180,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(8.0),
-                            ),
+                  constraints: const BoxConstraints(maxHeight: 180),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.only(top: 4.0, right: 4.0),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8.0),
                           ),
-                          child:
-                              const Center(child: CircularProgressIndicator()),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                ),
+                                child: const Padding(
+                                  padding: sPadding,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                            ),
+                            imageUrl: message.message,
+                          ),
                         ),
-                        imageUrl: message.message,
-                        height: 180,
-                        fit: BoxFit.cover,
                       ),
-                    ),
+                      const Spacer(),
+                    ],
                   ),
                 ),
               ),
@@ -111,7 +121,9 @@ class ReceiverChatItem extends StatelessWidget {
                 children: <Widget>[
                   sHeightSpan,
                   Text(
-                    DateFormat('dd MMM kk:mm').format(DateTime.now()),
+                    DateFormat('dd MMM kk:mm').format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(message.time))),
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.0,

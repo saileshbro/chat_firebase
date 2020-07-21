@@ -15,6 +15,7 @@ class SearchView extends StatelessWidget {
         onModelReady: (model) {
           _searchFocusNode.requestFocus();
         },
+        disposeViewModel: false,
         builder: (BuildContext context, SearchViewModel model, Widget child) =>
             Scaffold(
               appBar: AppBar(

@@ -8,6 +8,7 @@ import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:chat_firebase/ui/views/chat/chat_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:chat_firebase/common//ui/show_custom_botton_sheet.dart';
 
 class ChatView extends StatelessWidget {
   static const route = "/chat";
@@ -36,7 +37,15 @@ class ChatView extends StatelessWidget {
                       children: <Widget>[
                         IconButton(
                           icon: Icon(Icons.add_a_photo),
-                          onPressed: () {},
+                          onPressed: () {
+                            showCustomBottomSheet(
+                              context,
+                              child: MultimediaPicker(
+                                onCameraPressed: model.clickImage,
+                                onGalleryPressed: model.pickImage,
+                              ),
+                            );
+                          },
                         ),
                         Flexible(
                           child: Padding(
@@ -67,7 +76,9 @@ class ChatView extends StatelessWidget {
                             color: Colors.black,
                           ),
                           onPressed: () {
-                            model.onMessageSent(_controller.text);
+                            if (_controller.text.trim().isNotEmpty) {
+                              model.onMessageSent(_controller.text.trim());
+                            }
                             _controller.clear();
                           },
                         )
@@ -96,14 +107,14 @@ class ChatView extends StatelessWidget {
             message: message,
             name: model.loggedUser.userDataModel.name[0],
             color: getRandomColor(),
-            isLastMessage: isMyLastMessage(index, model.messages),
+            isLastMessage: isMyLastMessage(index, model),
           );
         } else {
           return ReceiverChatItem(
             message: message,
             name: otherUser.name,
             color: getRandomColor(),
-            isLastMessage: isTheirLastMessage(index, model.messages),
+            isLastMessage: isTheirLastMessage(index, model),
           );
         }
       },
@@ -111,14 +122,100 @@ class ChatView extends StatelessWidget {
       itemCount: model.messages.length,
     );
   }
+
+  bool isMyLastMessage(int index, ChatViewModel model) {
+    return (index > 0 &&
+            model.messages != null &&
+            model.messages[index - 1].sender !=
+                model.loggedUser.userDataModel.id) ||
+        index == 0;
+  }
+
+  bool isTheirLastMessage(int index, ChatViewModel model) {
+    return (index > 0 &&
+            model.messages != null &&
+            model.messages[index - 1].sender ==
+                model.loggedUser.userDataModel.id) ||
+        index == 0;
+  }
 }
 
-bool isMyLastMessage(int index, List<MessageDataModel> list) {
-  return (index > 0 && list != null && list[index - 1].sender != '1') ||
-      index == 0;
-}
+class MultimediaPicker extends StatelessWidget {
+  final Function onCameraPressed;
+  final Function onGalleryPressed;
 
-bool isTheirLastMessage(int index, List<MessageDataModel> list) {
-  return (index > 0 && list != null && list[index - 1].sender == '1') ||
-      index == 0;
+  const MultimediaPicker({
+    Key key,
+    @required this.onCameraPressed,
+    @required this.onGalleryPressed,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: xlXPadding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+              onCameraPressed();
+            },
+            child: Container(
+              padding: mPadding,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(0, 4),
+                      color: Colors.grey[300],
+                      blurRadius: 16),
+                ],
+                color: Colors.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    Icons.camera_alt,
+                    size: 32,
+                  ),
+                  xsHeightSpan,
+                  const Text("Take an picture!"),
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+              onGalleryPressed();
+            },
+            child: Container(
+              padding: mPadding,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(0, 4),
+                      color: Colors.grey[300],
+                      blurRadius: 16),
+                ],
+                color: Colors.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    Icons.image,
+                    size: 32,
+                  ),
+                  xsHeightSpan,
+                  const Text("Pick a picture!"),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
