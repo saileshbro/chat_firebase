@@ -9,6 +9,12 @@ class UserDataService {
   final SharedPreferences _preferences;
   UserDataModel _userDataModel;
   UserDataModel get userDataModel => _userDataModel;
+  String _pushNotificationToken;
+  String get pushNotificationToken => _pushNotificationToken;
+  void setPushNotificationToken(String token) {
+    _pushNotificationToken = token;
+  }
+
   UserDataService(this._preferences) {
     _userDataModel = UserDataModel(id: null, username: null, name: null);
   }

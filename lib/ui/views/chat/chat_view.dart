@@ -25,6 +25,10 @@ class ChatView extends StatelessWidget {
             Scaffold(
               appBar: AppBar(
                 title: Text(otherUser.name),
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: model.onBackPressed,
+                ),
                 centerTitle: true,
                 elevation: 0,
               ),

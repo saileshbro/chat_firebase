@@ -6,20 +6,24 @@ import 'package:chat_firebase/services/firebase_service.dart';
 import 'package:chat_firebase/services/user_data_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class ChatViewModel extends BaseViewModel {
   String _messageToSend;
   final FirebaseService _firebaseService;
   final UserDataService _userDataService;
+  final NavigationService _navigationService;
   File _image;
   UserDataService get loggedUser => _userDataService;
   UserDataModel _otherUser;
   final ImagePicker picker = ImagePicker();
   List<MessageDataModel> get messages => _messages;
   List<MessageDataModel> _messages;
-  ChatViewModel(this._firebaseService, this._userDataService);
+  ChatViewModel(
+      this._firebaseService, this._userDataService, this._navigationService);
   final Map<String, String> _fileImageCache = {};
   Map<String, String> get fileImageCache => _fileImageCache;
+
   void init(UserDataModel receiver) {
     _otherUser = receiver;
     _firebaseService
@@ -85,5 +89,10 @@ class ChatViewModel extends BaseViewModel {
       clearErrors();
       setBusy(false);
     }
+  }
+
+  void onBackPressed() {
+    _firebaseService.clearChattingWith();
+    _navigationService.back();
   }
 }

@@ -201,4 +201,28 @@ class FirebaseService {
     ]);
     return;
   }
+
+  Future<void> updatePushNotificationTokens(String token) async {
+    final DocumentSnapshot document = await _myDocumentReference.get();
+    List pushNotificationTokens = [];
+    if (document.data['pushNotificationTokens'] == null) {
+      pushNotificationTokens.add(token);
+    } else {
+      pushNotificationTokens = document.data['pushNotificationTokens'] as List;
+      if (!pushNotificationTokens.contains(token)) {
+        pushNotificationTokens.add(token);
+      }
+    }
+    await _myDocumentReference.updateData(
+      {"pushNotificationTokens": pushNotificationTokens},
+    );
+  }
+
+  void markChattingWithOther(String otherUserId) {
+    _myDocumentReference.updateData({"chattingWithId": otherUserId});
+  }
+
+  void clearChattingWith() {
+    _myDocumentReference.updateData({"chattingWithId": null});
+  }
 }

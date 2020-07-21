@@ -1,5 +1,6 @@
 import 'package:chat_firebase/services/api_service.dart';
 import 'package:chat_firebase/services/firebase_service.dart';
+import 'package:chat_firebase/services/push_notification_service.dart';
 import 'package:chat_firebase/services/user_data_service.dart';
 import 'package:chat_firebase/ui/views/chat/chat_viewmodel.dart';
 import 'package:chat_firebase/ui/views/home/home_viewmodel.dart';
@@ -23,6 +24,8 @@ Future<void> setupLocator() async {
       () => FirebaseService(locator<UserDataService>()));
   locator.registerLazySingleton<ApiService>(
       () => ApiService(locator<UserDataService>(), locator<FirebaseService>()));
+  locator.registerFactory<PushNotificationService>(
+      () => PushNotificationService(locator<NavigationService>()));
   locator.registerLazySingleton<StartUpViewModel>(() => StartUpViewModel(
       locator<NavigationService>(), locator<UserDataService>()));
   locator.registerLazySingleton<RegisterViewModel>(() => RegisterViewModel(
@@ -42,9 +45,12 @@ Future<void> setupLocator() async {
         locator<FirebaseService>(),
         locator<NavigationService>(),
         locator<UserDataService>(),
+        locator<PushNotificationService>(),
       ));
   locator.registerLazySingleton<SearchViewModel>(
       () => SearchViewModel(locator<NavigationService>()));
-  locator.registerFactory<ChatViewModel>(() =>
-      ChatViewModel(locator<FirebaseService>(), locator<UserDataService>()));
+  locator.registerFactory<ChatViewModel>(() => ChatViewModel(
+      locator<FirebaseService>(),
+      locator<UserDataService>(),
+      locator<NavigationService>()));
 }

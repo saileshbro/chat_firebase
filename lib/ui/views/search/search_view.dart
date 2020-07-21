@@ -50,13 +50,16 @@ class SearchView extends StatelessWidget {
     if (model.hasError) return Text(model.modelError);
     if (model.init) return const Text("Type to search by name or username!");
     if (model.isEmpty) return const Text("No results found!");
-    return ListView.builder(
+    return ListView.separated(
       padding: sPagePadding,
       itemBuilder: (BuildContext context, int index) => UserListTile(
         userDataModel: model.users[index],
         onPressed: () => model.goToChatScreen(model.users[index]),
       ),
       itemCount: model.users.length,
+      separatorBuilder: (BuildContext context, int index) {
+        return sHeightSpan;
+      },
     );
   }
 }
