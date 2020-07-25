@@ -1,12 +1,14 @@
 import 'package:chat_firebase/app/failure.dart';
 import 'package:chat_firebase/app/locator.dart';
+import 'package:chat_firebase/app/router.gr.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:chat_firebase/services/api_service.dart';
-import 'package:chat_firebase/ui/views/chat/chat_view.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+@lazySingleton
 class SearchViewModel extends BaseViewModel {
   String _query;
   List<UserDataModel> _users;
@@ -34,6 +36,7 @@ class SearchViewModel extends BaseViewModel {
   }
 
   void goToChatScreen(UserDataModel user) {
-    _navigationService.navigateTo(ChatView.route, arguments: user);
+    _navigationService.navigateTo(Routes.chatView,
+        arguments: ChatViewArguments(otherUser: user));
   }
 }

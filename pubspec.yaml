@@ -34,6 +34,8 @@ dependencies:
   firebase_storage: ^3.1.6
   firebase_messaging: ^6.0.16
   flutter_local_notifications: ^1.4.4+2
+  auto_route: ^0.6.6
+  injectable: ^1.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,6 +45,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   lint: ^1.2.0
+  auto_route_generator: ^0.6.6
+  injectable_generator: ^1.0.2
+  build_runner: ^1.10.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

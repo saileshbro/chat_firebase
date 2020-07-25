@@ -5,9 +5,11 @@ import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:chat_firebase/services/firebase_service.dart';
 import 'package:chat_firebase/services/user_data_service.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+@injectable
 class ChatViewModel extends BaseViewModel {
   String _messageToSend;
   final FirebaseService _firebaseService;

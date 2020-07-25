@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class SearchView extends StatelessWidget {
-  static const route = "/search";
   final FocusNode _searchFocusNode = FocusNode();
 
   @override

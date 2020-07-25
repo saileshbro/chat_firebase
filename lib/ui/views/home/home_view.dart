@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StatelessWidget {
-  static const route = "/home";
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(

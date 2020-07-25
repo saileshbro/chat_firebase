@@ -1,10 +1,12 @@
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String usernameKey = "USERNAME_KEY";
 const String userNameKey = "USER_NAME_KEY";
 const String userIdKey = "USER_ID_KEY";
 
+@lazySingleton
 class UserDataService {
   final SharedPreferences _preferences;
   UserDataModel _userDataModel;

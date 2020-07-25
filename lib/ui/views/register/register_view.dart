@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class RegisterView extends StatelessWidget {
-  static const String route = "/register";
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RegisterViewModel>.reactive(

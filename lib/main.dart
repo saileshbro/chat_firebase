@@ -1,6 +1,5 @@
 import 'package:chat_firebase/app/locator.dart';
-import 'package:chat_firebase/ui/router.dart';
-import 'package:chat_firebase/ui/views/startup/startup_view.dart';
+import 'package:chat_firebase/app/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -15,10 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Firebase Chat Application',
-      onGenerateRoute: onGenerateRoute,
+      onGenerateRoute: Router().onGenerateRoute,
       navigatorKey: locator<NavigationService>().navigatorKey,
       debugShowCheckedModeBanner: false,
-      initialRoute: StartUpView.route,
+      initialRoute: Routes.startUpView,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,

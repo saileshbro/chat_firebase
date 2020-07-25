@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class LoginView extends StatelessWidget {
-  static const String route = "/login";
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginViewModel>.reactive(

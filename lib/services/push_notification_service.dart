@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+@lazySingleton
 class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
   final NavigationService _navigationService;
@@ -52,21 +54,17 @@ class PushNotificationService {
     }
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
         showNotification(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
         _serialiseAndNavigate(message);
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
         _serialiseAndNavigate(message);
       },
     );
     _fcm.subscribeToTopic("all");
     final String token = await _fcm.getToken();
-    print(token);
     return token;
   }
 
@@ -86,8 +84,6 @@ class PushNotificationService {
         _platformChannelSpecifics,
         payload: json.encode(message),
       );
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 }

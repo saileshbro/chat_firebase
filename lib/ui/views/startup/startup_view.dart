@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class StartUpView extends StatelessWidget {
-  static const String route = "/";
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartUpViewModel>.reactive(

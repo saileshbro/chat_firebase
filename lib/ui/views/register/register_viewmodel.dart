@@ -1,12 +1,14 @@
 import 'package:chat_firebase/app/failure.dart';
+import 'package:chat_firebase/app/router.gr.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:chat_firebase/services/api_service.dart';
 import 'package:chat_firebase/services/user_data_service.dart';
-import 'package:chat_firebase/ui/views/home/home_view.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+@lazySingleton
 class RegisterViewModel extends BaseViewModel {
   String _username;
   String _name;
@@ -28,7 +30,7 @@ class RegisterViewModel extends BaseViewModel {
       result.fold((Failure failure) => _showDialog(failure.error),
           (UserDataModel model) async {
         await _userDataService.saveData(model);
-        _navigationService.clearStackAndShow(HomeView.route);
+        _navigationService.clearStackAndShow(Routes.homeView);
       });
       setBusy(false);
     }

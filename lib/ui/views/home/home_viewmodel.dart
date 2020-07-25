@@ -1,14 +1,14 @@
+import 'package:chat_firebase/app/router.gr.dart';
 import 'package:chat_firebase/datamodels/user_datamodel.dart';
 import 'package:chat_firebase/services/api_service.dart';
 import 'package:chat_firebase/services/firebase_service.dart';
 import 'package:chat_firebase/services/push_notification_service.dart';
 import 'package:chat_firebase/services/user_data_service.dart';
-import 'package:chat_firebase/ui/views/chat/chat_view.dart';
-import 'package:chat_firebase/ui/views/login/login_view.dart';
-import 'package:chat_firebase/ui/views/search/search_view.dart';
+import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+@injectable
 class HomeViewModel extends BaseViewModel {
   final ApiService _apiService;
   final FirebaseService _firebaseService;
@@ -50,15 +50,16 @@ class HomeViewModel extends BaseViewModel {
 
   void onLogoutPressed() {
     _apiService.logout();
-    _navigationService.clearStackAndShow(LoginView.route);
+    _navigationService.clearStackAndShow(Routes.loginView);
   }
 
   void onSearchPressed() {
-    _navigationService.navigateTo(SearchView.route);
+    _navigationService.navigateTo(Routes.searchView);
   }
 
   void goToChatScreen(UserDataModel user) {
     _firebaseService.markChattingWithOther(user.id);
-    _navigationService.navigateTo(ChatView.route, arguments: user);
+    _navigationService.navigateTo(Routes.chatView,
+        arguments: ChatViewArguments(otherUser: user));
   }
 }

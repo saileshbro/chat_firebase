@@ -4,7 +4,9 @@ import 'package:chat_firebase/services/firebase_service.dart';
 import 'package:chat_firebase/services/user_data_service.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class ApiService {
   final UserDataService _userDataService;
   final FirebaseService _firebaseService;

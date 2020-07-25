@@ -10,7 +10,9 @@ import 'package:chat_firebase/services/user_data_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class FirebaseService {
   final UserDataService _userDataService;
   final CollectionReference _usersCollectionReference =
@@ -204,17 +206,20 @@ class FirebaseService {
 
   Future<void> updatePushNotificationTokens(String token) async {
     final DocumentSnapshot document = await _myDocumentReference.get();
-    List pushNotificationTokens = [];
+    Set pushNotificationTokens = {};
     if (document.data['pushNotificationTokens'] == null) {
       pushNotificationTokens.add(token);
     } else {
-      pushNotificationTokens = document.data['pushNotificationTokens'] as List;
+      pushNotificationTokens =
+          (document.data['pushNotificationTokens'] as List).toSet();
       if (!pushNotificationTokens.contains(token)) {
         pushNotificationTokens.add(token);
       }
     }
+    pushNotificationTokens =
+        pushNotificationTokens.where((element) => element != null).toSet();
     await _myDocumentReference.updateData(
-      {"pushNotificationTokens": pushNotificationTokens},
+      {"pushNotificationTokens": pushNotificationTokens.toList()},
     );
   }
 

@@ -11,7 +11,6 @@ import 'package:stacked/stacked.dart';
 import 'package:chat_firebase/common//ui/show_custom_botton_sheet.dart';
 
 class ChatView extends StatelessWidget {
-  static const route = "/chat";
   final UserDataModel otherUser;
 
   final TextEditingController _controller = TextEditingController();
